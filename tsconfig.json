@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "umd",
+    "target": "es6",
+    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": false,
+    "declaration": true,
+    "sourceRoot": "src",
+    "baseUrl": "src",
+    "outDir": "dist",
+    "strict": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "lib": [
+      "es2015",
+      "es2017.object"
+    ]
+  },
+  "include": [
+    "src"
+  ]
+}

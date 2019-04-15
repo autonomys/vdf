@@ -1,0 +1,30 @@
+{
+  "name": "@subspace/vdf",
+  "description": "",
+  "keywords": [
+    "crypto",
+    "webassembly",
+    "wasm",
+    "emscripten",
+    "vdf"
+  ],
+  "version": "0.1.0",
+  "homepage": "https://github.com/subspace/vdf",
+  "author": "Nazar Mokrynskyi <nazar@mokrynskyi.com>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/subspace/vdf.git"
+  },
+  "license": "MIT",
+  "main": "src/index.js",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "test": "tape tests/**/*.js"
+  },
+  "devDependencies": {
+    "tape": "^4.10.1",
+    "@types/node": "^11.13.4"
+  }
+}
