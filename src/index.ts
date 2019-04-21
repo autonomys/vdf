@@ -11,14 +11,14 @@ interface ILibrary {
         iterations: number,
         challenge: Uint8Array,
         intSizeBits: number,
-        isPietrzak: boolean
+        isPietrzak: boolean,
     ) => Uint8Array;
     verify: (
         iterations: number,
         challenge: Uint8Array,
         proof: Uint8Array,
         intSizeBits: number,
-        isPietrzak: boolean
+        isPietrzak: boolean,
     ) => boolean;
     _lib_internal: EmscriptenModule;
 }
@@ -38,7 +38,7 @@ async function CreateLib(lib: EmscriptenModule, options?: object): Promise<ILibr
         iterations: number,
         challenge: Uint8Array,
         intSizeBits: number,
-        isPietrzak: boolean
+        isPietrzak: boolean,
     ): Uint8Array {
         if (isPietrzak && (iterations % 2 !== 0 || iterations < 66)) {
             throw new Error('Number of iterations must be even and at least 66');
@@ -53,7 +53,7 @@ async function CreateLib(lib: EmscriptenModule, options?: object): Promise<ILibr
             intSizeBits,
             isPietrzak,
             proofPtr,
-            proofSize
+            proofSize,
         );
         if (result === 0) {
             const proof = proofPtr.dereference(proofSize.get(Uint32Array)[0]);
@@ -85,7 +85,7 @@ async function CreateLib(lib: EmscriptenModule, options?: object): Promise<ILibr
         challenge: Uint8Array,
         proof: Uint8Array,
         intSizeBits: number,
-        isPietrzak: boolean
+        isPietrzak: boolean,
     ): boolean {
         if (isPietrzak && (iterations % 2 !== 0 || iterations < 66)) {
             throw new Error('Number of iterations must be even and at least 66');
@@ -99,7 +99,7 @@ async function CreateLib(lib: EmscriptenModule, options?: object): Promise<ILibr
             proofBuffer,
             proofBuffer.length,
             intSizeBits,
-            isPietrzak
+            isPietrzak,
         );
         challengeBuffer.free();
         proofBuffer.free();
@@ -113,13 +113,13 @@ async function CreateLib(lib: EmscriptenModule, options?: object): Promise<ILibr
     });
 
     return {
+        _lib_internal: lib,
         generate: generate,
         verify: verify,
-        _lib_internal: lib
-    }
+    };
 }
 
-function wrapper(lib: EmscriptenModule) {
+function wrapper(lib: EmscriptenModule): (options?: object) => Promise<ILibrary> {
     return CreateLib.bind(null, lib);
 }
 
