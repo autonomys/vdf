@@ -90,7 +90,7 @@ You'll need at least following:
 * rustup (use https://rustup.rs/)
 
 ### Prepare
-First, make sure you have Rust, Cargo and wasm64-unknown-emscripten target installed:
+First, make sure you have Rust, Cargo and wasm32-unknown-emscripten target installed:
 ```bash
 rustup target add wasm32-unknown-emscripten
 ```
