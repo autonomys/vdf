@@ -24,13 +24,14 @@ GMP_RELEASE=gmp-6.1.2
 mkdir -p $CACHE_DIR/lib
 
 if [[ ! -f $CACHE_DIR/lib/libgmp.a ]]; then
-    echo libgmp.a is not build yet, compiling it
+    echo libgmp.a is not built yet, compiling it
 
     pushd $CACHE_DIR
         curl https://gmplib.org/download/gmp/$GMP_RELEASE.tar.bz2 -O
         tar xf $GMP_RELEASE.tar.bz2
         pushd $GMP_RELEASE
-            CC_FOR_BUILD=/usr/bin/gcc ABI=standard emconfigure ./configure --build i686-linux-gnu --host none --disable-assembly --prefix=$(pwd)/build
+            CC_FOR_BUILD=/usr/bin/gcc emconfigure ./configure --build i386-linux-gnu --host none --disable-assembly --disable-shared --prefix=$(pwd)/build
+            patch < ../../src/gmp/config.h.patch
             make -j $(getconf _NPROCESSORS_ONLN)
             cp .libs/libgmp.a $CACHE_DIR/lib/
         popd
