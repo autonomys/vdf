@@ -30,7 +30,7 @@ if [[ ! -f $CACHE_DIR/lib/libgmp.a ]]; then
         curl https://gmplib.org/download/gmp/$GMP_RELEASE.tar.bz2 -O
         tar xf $GMP_RELEASE.tar.bz2
         pushd $GMP_RELEASE
-            CC_FOR_BUILD=/usr/bin/gcc emconfigure ./configure --build i386-linux-gnu --host none --disable-assembly --disable-shared --prefix=$(pwd)/build
+            CC_FOR_BUILD=$(which gcc) emconfigure ./configure --build i386-linux-gnu --host none --disable-assembly --disable-shared --prefix=$(pwd)/build
             patch < ../../src/gmp/config.h.patch
             make -j $(getconf _NPROCESSORS_ONLN)
             cp .libs/libgmp.a $CACHE_DIR/lib/
