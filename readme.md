@@ -51,7 +51,7 @@ requirejs(['@subspace/vdf'], function (createVdf) {
 
 ## API
 
-### createVdf(options): Promise<ILibrary>
+### createVdf(options): Promise\<ILibrary\>
 Creates a new instance of Noise library
 * `options` - [Options object](https://kripken.github.io/emscripten-site/docs/api_reference/module.html#affecting-execution) that will be passed to underlying Emscripten module (optional)
 
