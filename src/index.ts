@@ -26,17 +26,27 @@ interface ILibrary {
 async function CreateLib(lib: EmscriptenModule, options?: object): Promise<ILibrary> {
     const libInstance = lib(options);
 
+    /**
+     * Generate VDF proof
+     *
+     * @param iterations
+     * @param challenge
+     * @param intSizeBits
+     * @param isPietrzak
+     */
     function generate(
         iterations: number,
         challenge: Uint8Array,
         intSizeBits: number,
         isPietrzak: boolean
     ): Uint8Array {
+        if (isPietrzak && (iterations % 2 !== 0 || iterations < 66)) {
+            throw new Error('Number of iterations must be even and at least 66');
+        }
         const proofPtr = libInstance.allocatePointer();
         const proofSize = libInstance.allocateBytes(4);
         const challengeBuffer = libInstance.allocateBytes(0, challenge);
         const result = libInstance._generate(
-            // TODO: Iterations check (must contain `isPietrzak && (iterations & 1 != 0 || iterations < 66)`
             iterations,
             challengeBuffer,
             challengeBuffer.length,
@@ -61,7 +71,15 @@ async function CreateLib(lib: EmscriptenModule, options?: object): Promise<ILibr
         }
     }
 
-
+    /**
+     * Verify that VDF proof is correct
+     *
+     * @param iterations
+     * @param challenge
+     * @param proof
+     * @param intSizeBits
+     * @param isPietrzak
+     */
     function verify(
         iterations: number,
         challenge: Uint8Array,
@@ -69,10 +87,12 @@ async function CreateLib(lib: EmscriptenModule, options?: object): Promise<ILibr
         intSizeBits: number,
         isPietrzak: boolean
     ): boolean {
+        if (isPietrzak && (iterations % 2 !== 0 || iterations < 66)) {
+            throw new Error('Number of iterations must be even and at least 66');
+        }
         const challengeBuffer = libInstance.allocateBytes(0, challenge);
         const proofBuffer = libInstance.allocateBytes(0, proof);
         const result = libInstance._verify(
-            // TODO: Iterations check (must contain `isPietrzak && (iterations & 1 != 0 || iterations < 66)`
             iterations,
             challengeBuffer,
             challengeBuffer.length,
