@@ -13,7 +13,9 @@ npm install @subspace/vdf
 ## How to use
 Node.js:
 ```javascript
-import createVdf from '@subspace/vdf';
+const createVdf = require('@subspace/vdf');
+// Or TypeScript:
+// import createVdf = require('@subspace/vdf');
 
 createVdf()
     .then((vdfInstance) => {
